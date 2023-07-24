@@ -15,8 +15,63 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './AdminDash.css';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function AdminDash() {
+
+  const [itemCode, setItemCode] = useState()
+  const [itemCategory, setItemCategory] = useState()
+  const [itemName, setItemName] = useState()
+  const [itemPrice, setItemPrice] = useState()
+  const [qtyOnHand, setQtyOnHand] = useState()
+
+
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    fetchDataFromServer();
+  }, [])
+
+  const fetchDataFromServer = () => {
+    // Your code to fetch data from the server goes here
+    axios.get('http://localhost:3500/api/v1/getItem')
+      .then((res) => {
+        setItems(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleItemSubmit = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3500/api/v1/item", { itemCode,itemCategory, itemName, itemPrice, qtyOnHand })
+      .then(res => {
+        setItems([...items, res.data]);
+        console.log(items)
+        fetchDataFromServer();
+        alert("Saved");
+
+      })
+      .catch(err => {
+        console.log(err)
+        alert("Failed");
+      })
+  }
+
+  const handleDeleteItem = (id) => {
+    axios.delete('http://localhost:3500/api/v1/deleteItem/'+id)
+    .then(res => {console.log(res)
+      window.location.reload()
+    })
+    .catch(err => console.log(err))
+  }
+
+
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -41,18 +96,7 @@ export default function AdminDash() {
     return { name, calories, fat, carbs, protein };
   }
 
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+  
   return (
     <>
       <Box className='feildT'
@@ -62,25 +106,18 @@ export default function AdminDash() {
         }}
         noValidate
         autoComplete="off"
-      >
-        <TextField id="outlined-basic" label="Id" variant="outlined" />
-        <TextField id="outlined-basic" label="Category" variant="outlined" />
-        <TextField id="outlined-basic" label="Name" variant="outlined" />
-        <TextField id="outlined-basic" label="Price" variant="outlined" />
-        <TextField id="outlined-basic" label="Qty" variant="outlined" />
-      </Box>
-
-      <Stack direction="row" className='buttonC' spacing={2}>
-        {/* <Button variant="contained" color='error' startIcon={<DeleteIcon />}>
-          Delete
-        </Button> */}
-        <Button variant="contained" className='saveBtn' color='success' endIcon={<SaveIcon />}>
+      onSubmit={handleItemSubmit}>
+        <TextField id="outlined-basic" label="Id" variant="outlined" onChange={(e) => setItemCode(e.target.value)}/>
+        <TextField id="outlined-basic" label="Category" variant="outlined"onChange={(e) => setItemCategory(e.target.value)}/>
+        <TextField id="outlined-basic" label="Name" variant="outlined" onChange={(e) => setItemName(e.target.value)}/>
+        <TextField id="outlined-basic" label="Price" variant="outlined" onChange={(e) => setItemPrice(e.target.value)}/>
+        <TextField id="outlined-basic" label="Qty" variant="outlined" onChange={(e) => setQtyOnHand(e.target.value)}/>
+        <Button variant="contained" type='submit' className='saveBtn' color='success' endIcon={<SaveIcon />}>
           Save
         </Button>
-        {/* <Button variant="contained" color='info' endIcon={<UpdateIcon/>}>
-      Update
-    </Button> */}
-      </Stack>
+      </Box>
+
+    
 
       <TableContainer className='tContainer' component={Paper} style={{ maxHeight: '400px', overflowY: 'auto' }}>
         <Table className='tSx' aria-label="customized table">
@@ -95,20 +132,22 @@ export default function AdminDash() {
             </TableRow>
           </TableHead>
           <TableBody className='tBody' >
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+            {items.map((item) => (
+              <StyledTableRow key={item}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {item.itemCode}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                <StyledTableCell align="right">{item.itemCategory}</StyledTableCell>
+                <StyledTableCell align="right">{item.itemName}</StyledTableCell>
+                <StyledTableCell align="right">{item.itemPrice}</StyledTableCell>
+                <StyledTableCell align="right">{item.qtyOnHand}</StyledTableCell>
                 <StyledTableCell align="right">
+                  <Link to={`/itemUpdate/${item._id}`}>
                   <Button variant="contained" color='info' endIcon={<UpdateIcon />}>
                     Update
                   </Button>
-                  <Button variant="contained" color='error' startIcon={<DeleteIcon />}>
+                  </Link>
+                  <Button variant="contained" onClick={(e) => handleDeleteItem(item._id)} color='error' startIcon={<DeleteIcon />}>
                     Delete
                   </Button>
                 </StyledTableCell>

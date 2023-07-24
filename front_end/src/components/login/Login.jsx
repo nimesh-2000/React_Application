@@ -9,18 +9,36 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
  function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const [signinEmail, setEmail] = useState("");
+  const [signinPassword, setPassword] = useState("");
+
   const navigate = useNavigate();
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try{
+      await axios
+        .post("http://localhost:3500/api/v1/login",{
+            signinEmail,
+            signinPassword
+        })
+        .then((res)=>{
+          
+            const user = res.data.data;
+            navigate('/cart')
+        })
+    }catch(err){
+        alert("Email or password incorrect.!")
+    }
+
+  };
+  
+ 
   const handlesignup =(event) =>{
     event.preventDefault();
     navigate("/SignUp");
@@ -48,6 +66,7 @@ import { useNavigate } from 'react-router-dom';
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             margin="normal"
@@ -58,6 +77,7 @@ import { useNavigate } from 'react-router-dom';
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

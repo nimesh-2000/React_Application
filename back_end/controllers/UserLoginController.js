@@ -30,28 +30,28 @@ const saveUser = (req,res) => {
         })
 }
 
-// // const getUser = (req, res) => {
-// //     const email = req.body.signinEmail;
-// //     const password = req.body.signinPassword;
+const getUser = (req, res) => {
+    const email = req.body.signinEmail;
+    const password = req.body.signinPassword;
 
-// //     User.findOne({userEmail:email,userPassword:password})
-// //         .then((response)=>{
-// //             console.log("response: "+response);
+    User.findOne({userEmail:email,userPassword:password})
+        .then((response)=>{
+            console.log("response: "+response);
 
-// //             if(response == null){
-// //                 res.status(409).json({message:"user name or password incorrect.!"})
-// //             }else{
-// //                 res.status(201).json({message:"Logged", data:response})
-// //             }
-// //         })
-// //         .catch((err)=>{
-// //             res.status(500).json({message:"Internal Server Error..!"})
-// //         })
-// // }
+            if(response == null){
+                res.status(409).json({message:"user name or password incorrect.!"})
+            }else{
+                res.status(201).json({message:"Logged", data:response})
+            }
+        })
+        .catch((err)=>{
+            res.status(500).json({message:"Internal Server Error..!"})
+        })
+}
 
 
 
 // const deleteUser = () => { }
 // const updateUser = () => { }
 
-module.exports = {saveUser}
+module.exports = {saveUser,getUser}

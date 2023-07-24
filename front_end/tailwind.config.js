@@ -28,7 +28,7 @@ module.exports = {
             'Noto Color Emoji'
       ],
       'hom': [
-        'Oswald'
+        'ui-sans-serif'
       ],
           'sans': [
             'Inter', 
