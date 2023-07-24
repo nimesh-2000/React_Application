@@ -1,0 +1,23 @@
+.tContainer{
+   margin-top: 40px; 
+}
+.tSx{
+    max-width:75%;
+    margin-left: 12%;
+}
+.buttonC{
+    margin-top: 80px;
+    margin-left: 75%;
+}
+.feildT{
+    margin-top: 40px;
+}
+.tBody{
+    overflow-y: auto;
+}
+.saveBtn{
+    width: 200px;
+    font-size: x-large;
+    left:-50px ;
+    top: -70px;
+}
