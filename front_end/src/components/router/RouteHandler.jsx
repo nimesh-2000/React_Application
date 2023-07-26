@@ -5,6 +5,8 @@ import Hero from "../hero/Hero.jsx";
 import AdminLogin from "../admin/AdminLogin.jsx";
 import AdminDash from "../admin/AdminDash.jsx";
 import ItemUpdate from "../items/ItemUpdate.jsx";
+import Cart from "../cart/Cart.jsx";
+import OrdersCart from "../orders/OrdersCart.jsx";
 
 
 
@@ -19,6 +21,8 @@ export const RouteHandler = () =>{
                <Route path="/admin" element={<AdminLogin/>}/>
                <Route path="/adminDash" element={<AdminDash/>}/>
                <Route path="/itemUpdate/:id" element={<ItemUpdate/>}/>
+               <Route path="/cart" element={<Cart/>}/>
+               <Route path="/ordersCart" element={<OrdersCart/>}/>
             </Routes>
         </>
     );
