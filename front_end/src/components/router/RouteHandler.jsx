@@ -7,6 +7,7 @@ import AdminDash from "../admin/AdminDash.jsx";
 import ItemUpdate from "../items/ItemUpdate.jsx";
 import Cart from "../cart/Cart.jsx";
 import OrdersCart from "../orders/OrdersCart.jsx";
+import ViewOrders from "../orderView/ViewOrders.jsx";
 
 
 
@@ -23,6 +24,8 @@ export const RouteHandler = () =>{
                <Route path="/itemUpdate/:id" element={<ItemUpdate/>}/>
                <Route path="/cart" element={<Cart/>}/>
                <Route path="/ordersCart" element={<OrdersCart/>}/>
+               <Route path="/viewOrders" element={<ViewOrders/>}/>
+               <Route path="/payments" element={<ViewOrders/>}/>
             </Routes>
         </>
     );

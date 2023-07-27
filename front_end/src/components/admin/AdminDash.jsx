@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 export default function AdminDash() {
 
@@ -116,8 +117,11 @@ export default function AdminDash() {
           Save
         </Button>
       </Box>
-
-    
+       <Link to={'/payments'}>
+      <Button variant="contained" type='button' className='paymentBtn' color='info' endIcon={<PaymentIcon/>}>
+          Payments
+        </Button>
+        </Link>
 
       <TableContainer className='tContainer' component={Paper} style={{ maxHeight: '400px', overflowY: 'auto' }}>
         <Table className='tSx' aria-label="customized table">

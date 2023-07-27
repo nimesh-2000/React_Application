@@ -30,6 +30,7 @@ import axios from 'axios';
         .then((res)=>{
           
             const user = res.data.data;
+            localStorage.setItem('formDetails',JSON.stringify(user.userEmail));
             navigate('/cart')
         })
     }catch(err){

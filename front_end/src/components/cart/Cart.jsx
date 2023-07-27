@@ -39,7 +39,7 @@ export default function Cart() {
     const handleAddToCart = (itemCode,itemCategory,itemName,itemPrice,qtyOnHand) => {
     
       var array = new Array();
-      localStorage.clear();
+      //localStorage.clear();
       array.push({
           itemCode,
           itemCategory,
@@ -67,21 +67,37 @@ export default function Cart() {
   return (
     <>
     <Link to={"/ordersCart"}>
-     <Button  variant="outlined" color="secondary" style={{marginTop:80}}>My-Orders</Button>
+     <Button  variant="outlined" color="secondary" style={{marginTop:10}}>My-Orders</Button>
      </Link>
 
-    <Card sx={{display:'flex', flexDirection:'row', gap:5, padding:8}}>
+    <Card sx={{display:'flex',flexWrap: 'wrap', flexDirection:'row', gap:3, padding:15,marginLeft:25}}>
 
     {/* <form onSubmit = {handleAddtoCart}> */}
 
         {items.map(item => (
-      <CardActionArea key={item._id}>
+      <CardActionArea key={item._id}sx={{ maxWidth: '20%', flexBasis: '20%', flexGrow: 1 }}>
+        {item.itemCategory === 'Samsung' ? (
         <CardMedia
           component="img"
           height="140"
-          image="https://i.postimg.cc/3xMYr8Mm/3524.jpg"
-          alt="green iguana"
+          image="https://i.postimg.cc/XJ8qPb3S/182573-OX1-EUC-646-removebg-preview-1.png" // Replace with the actual URL for the Samsung image
+          alt="Samsung"
         />
+      ) : item.itemCategory === 'Apple' ? (
+        <CardMedia
+          component="img"
+          height="140"
+          image="https://i.postimg.cc/bN6bJ17c/3179230-removebg-preview-1.png" // Replace with the actual URL for the iPhone image
+          alt="Apple"
+        />
+      ) : (
+        <CardMedia
+          component="img"
+          height="140"
+          image="https://path-to-default-image.jpg" // Replace with the default image URL if needed
+          alt="Default"
+        />
+      )}
         <CardContent style={{ border:1}}>
           <Typography gutterBottom variant="h5" component="div"  value={itemCode}
           onChange={(e) => setItemCode(e.target.value)}>
@@ -106,11 +122,11 @@ export default function Cart() {
             Lizards are a widespread group of squamate reptiles, with over 6,000
             species, ranging across all continents except Antarctica
           </Typography> */}
-          <Typography gutterBottom variant="h5" component="div"  value={itemPrice}
+          <Typography style={{fontWeight:'bold',backgroundColor:'Highlight'}} gutterBottom variant="h5" component="div"  value={itemPrice}
           onChange={(e) => setItemPrice(e.target.value)}>
           Price: {item.itemPrice}/-
           </Typography>
-          <Typography gutterBottom variant="h5" component="div"  value={qtyOnHand}
+          <Typography style={{fontWeight:'bold'}} gutterBottom variant="h5" component="div"  value={qtyOnHand}
           onChange={(e) => setQtyOnHand(e.target.value)}>
           Quantity: {item.qtyOnHand}
           </Typography>
